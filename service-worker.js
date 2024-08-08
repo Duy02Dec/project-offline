@@ -35,7 +35,7 @@ self.addEventListener('fetch', event => {
                 .catch(() => {
                     // Nếu mạng không khả dụng và yêu cầu là điều hướng, trả về trang dự phòng
                     if (event.request.mode === 'navigate') {
-                        return caches.match('/fallback.html');
+                        return caches.match('./fallback.html');
                     }
                 });
         })
