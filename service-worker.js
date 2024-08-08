@@ -21,7 +21,15 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
         .then(response => {
-            return response || fetch(event.request);
+            if (response) {
+                return response;
+            }
+            return fetch(event.request).catch(() => {
+                // Tùy chọn: trả về một tài nguyên dự phòng nếu cả cache và mạng đều không thành công
+                return new Response('Offline page', {
+                    headers: { 'Content-Type': 'text/html' }
+                });
+            });
         })
         .catch(error => {
             console.error('Failed to fetch resource:', error);
